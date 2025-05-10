@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfkwy8qy3b2ao"]
+
+[ext_resource type="Script" path="res://blue.gd" id="1_m7wld"]
+[ext_resource type="Texture2D" uid="uid://2gywq4xvggpi" path="res://assets/Brick4_4.png" id="2_q6qlm"]
+[ext_resource type="AudioStream" uid="uid://deum6ft4tae7q" path="res://assets/Explosion_3.wav" id="3_c27pq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kx5mh"]
+size = Vector2(62, 24)
+
+[node name="blue" type="RigidBody2D"]
+gravity_scale = 0.0
+continuous_cd = 1
+script = ExtResource("1_m7wld")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_q6qlm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kx5mh")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_c27pq")
+volume_db = -8.064

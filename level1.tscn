@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhuuldlqhu8p"]
+
+[ext_resource type="Script" path="res://level_1.gd" id="1_8b5gb"]
+[ext_resource type="PackedScene" uid="uid://ct2e461ukgi3k" path="res://panel.tscn" id="1_22cxq"]
+[ext_resource type="PackedScene" uid="uid://brwlss6yqnitb" path="res://ball.tscn" id="2_rfrp3"]
+[ext_resource type="Texture2D" uid="uid://bfth22rvtmgr4" path="res://assets/Background1.png" id="4_j2ac3"]
+[ext_resource type="AudioStream" uid="uid://dw1i0hpahyng4" path="res://assets/8-bit-arcade-mode-158814.mp3" id="5_48fja"]
+[ext_resource type="Script" path="res://game_manager.gd" id="6_ahjbd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5l4so"]
+size = Vector2(31, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0v6wy"]
+size = Vector2(865, 23.75)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_acy7t"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_8b5gb")
+
+[node name="gameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_ahjbd")
+
+[node name="panel" parent="." instance=ExtResource("1_22cxq")]
+position = Vector2(397, 569)
+
+[node name="wall" type="StaticBody2D" parent="."]
+
+[node name="wallLeft" type="CollisionShape2D" parent="wall"]
+position = Vector2(-18, 299)
+shape = SubResource("RectangleShape2D_5l4so")
+
+[node name="wallRight" type="CollisionShape2D" parent="wall"]
+position = Vector2(817, 301)
+shape = SubResource("RectangleShape2D_5l4so")
+
+[node name="ceiling" type="CollisionShape2D" parent="wall"]
+position = Vector2(399.5, -15)
+shape = SubResource("RectangleShape2D_0v6wy")
+
+[node name="ball" parent="." instance=ExtResource("2_rfrp3")]
+position = Vector2(396, 535)
+
+[node name="lower_bound" type="Area2D" parent="."]
+position = Vector2(510, 618)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lower_bound"]
+shape = SubResource("WorldBoundaryShape2D_acy7t")
+
+[node name="blockContainer" type="Node" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.152941)
+z_index = -1
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 804.0
+offset_bottom = 594.0
+texture = ExtResource("4_j2ac3")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_48fja")
+volume_db = -1.98
+autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+offset_left = 4.0
+offset_top = 7.0
+offset_right = 93.0
+offset_bottom = 37.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = -19.0
+offset_right = 41.5
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "points:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="lower_bound" to="ball" method="_on_lower_bound_body_entered"]

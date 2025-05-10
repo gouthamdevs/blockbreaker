@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://f14govvnvggy"]
+
+[ext_resource type="Script" path="res://darkblue.gd" id="1_bjovw"]
+[ext_resource type="Texture2D" uid="uid://b7k4ru88ma825" path="res://assets/Brick5_4.png" id="2_e8sr3"]
+[ext_resource type="AudioStream" uid="uid://deum6ft4tae7q" path="res://assets/Explosion_3.wav" id="3_ryiob"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7wybl"]
+size = Vector2(62, 24)
+
+[sub_resource type="Animation" id="Animation_gitdf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bw8eg"]
+resource_name = "hit_1"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 0.917647, 0.835294)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g5g36"]
+_data = {
+"RESET": SubResource("Animation_gitdf"),
+"hit_1": SubResource("Animation_bw8eg")
+}
+
+[node name="darkblue" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_bjovw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_e8sr3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7wybl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_g5g36")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ryiob")
+volume_db = -8.914
