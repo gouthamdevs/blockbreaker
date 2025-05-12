@@ -12,11 +12,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func hit1():
+func hit():
 	if count==1:
 		animation_player.play("hit_1")
 		count+=1
 	elif count>1:
+		for i in 2:
+			game_manager.add_p()
 		audio_stream_player_2d.play()
 		$Sprite2D.visible=false
 		$CollisionShape2D.disabled=true

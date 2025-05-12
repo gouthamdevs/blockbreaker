@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhuuldlqhu8p"]
+[gd_scene load_steps=17 format=3 uid="uid://bhuuldlqhu8p"]
 
 [ext_resource type="Script" path="res://level_1.gd" id="1_8b5gb"]
 [ext_resource type="PackedScene" uid="uid://ct2e461ukgi3k" path="res://panel.tscn" id="1_22cxq"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bfth22rvtmgr4" path="res://assets/Background1.png" id="4_j2ac3"]
 [ext_resource type="AudioStream" uid="uid://dw1i0hpahyng4" path="res://assets/8-bit-arcade-mode-158814.mp3" id="5_48fja"]
 [ext_resource type="Script" path="res://game_manager.gd" id="6_ahjbd"]
+[ext_resource type="Texture2D" uid="uid://bfotv6ek6xdpx" path="res://assets/heart pixel art 32x32.png" id="7_cbecf"]
+[ext_resource type="Script" path="res://pause.gd" id="8_68ir7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5l4so"]
 size = Vector2(31, 600)
@@ -15,12 +17,46 @@ size = Vector2(865, 23.75)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_acy7t"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31vfe"]
+bg_color = Color(0.6, 0.6, 0.6, 0.243137)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ilyid"]
+bg_color = Color(0.6, 0.6, 0.6, 0.168627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5utp"]
+bg_color = Color(0, 0, 0, 0.701961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ya1vk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cfjyv"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="Node" type="Node"]
 script = ExtResource("1_8b5gb")
 
-[node name="gameManager" type="Node" parent="."]
+[node name="gameManager" type="Node" parent="." node_paths=PackedStringArray("hearts")]
 unique_name_in_owner = true
 script = ExtResource("6_ahjbd")
+hearts = [NodePath("../CanvasLayer/hearts/HBoxContainer/heart"), NodePath("../CanvasLayer/hearts/HBoxContainer/heart2"), NodePath("../CanvasLayer/hearts/HBoxContainer/hearts3")]
 
 [node name="panel" parent="." instance=ExtResource("1_22cxq")]
 position = Vector2(397, 569)
@@ -71,6 +107,7 @@ offset_left = 4.0
 offset_top = 7.0
 offset_right = 93.0
 offset_bottom = 37.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_31vfe")
 
 [node name="Label" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 1
@@ -79,10 +116,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -42.5
-offset_top = -19.0
-offset_right = 41.5
-offset_bottom = 9.0
+offset_left = -43.5
+offset_top = -17.0
+offset_right = 40.5
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 20
@@ -90,4 +127,101 @@ text = "points:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="hearts" type="Panel" parent="CanvasLayer"]
+offset_left = 677.0
+offset_top = 3.0
+offset_right = 795.0
+offset_bottom = 43.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ilyid")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/hearts"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 6.0
+offset_right = 111.0
+offset_bottom = 38.0
+
+[node name="heart" type="TextureRect" parent="CanvasLayer/hearts/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("7_cbecf")
+
+[node name="heart2" type="TextureRect" parent="CanvasLayer/hearts/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("7_cbecf")
+
+[node name="hearts3" type="TextureRect" parent="CanvasLayer/hearts/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("7_cbecf")
+
+[node name="pause" type="Node" parent="CanvasLayer"]
+script = ExtResource("8_68ir7")
+
+[node name="pause_panel" type="Panel" parent="CanvasLayer/pause"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -399.5
+offset_top = -299.5
+offset_right = 399.5
+offset_bottom = 299.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_g5utp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/pause/pause_panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.5
+offset_top = -42.5
+offset_right = 80.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+theme_override_constants/separation = 19
+
+[node name="menu" type="Button" parent="CanvasLayer/pause/pause_panel/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(0.882353, 0.752941, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_ya1vk")
+text = "MENU"
+
+[node name="resume" type="Button" parent="CanvasLayer/pause/pause_panel/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(0.882353, 0.752941, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_cfjyv")
+text = "RESUME"
+
+[node name="Label" type="Label" parent="CanvasLayer/pause/pause_panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -172.0
+offset_top = 121.5
+offset_right = 180.0
+offset_bottom = 197.5
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.881238, 0.753664, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 55
+text = "PAUSE MENU"
+
 [connection signal="body_entered" from="lower_bound" to="ball" method="_on_lower_bound_body_entered"]
+[connection signal="pressed" from="CanvasLayer/pause/pause_panel/VBoxContainer/menu" to="CanvasLayer/pause" method="_on_menu_pressed"]
+[connection signal="pressed" from="CanvasLayer/pause/pause_panel/VBoxContainer/resume" to="CanvasLayer/pause" method="_on_resume_pressed"]

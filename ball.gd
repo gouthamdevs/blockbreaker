@@ -1,10 +1,13 @@
 extends CharacterBody2D
+@onready var game_manager: Node = %gameManager
+@onready var panel: CharacterBody2D = $"../panel"
 
 var spd = 200
 var dir=Vector2.DOWN
 
 func _ready() -> void:
 	velocity=Vector2(-spd,spd).normalized()*spd
+
 
 func _physics_process(delta: float) -> void:
 	if velocity.y>0 and velocity.y<100:
@@ -16,8 +19,7 @@ func _physics_process(delta: float) -> void:
 		var col=collision.get_collider()
 		if col.has_method("hit"):
 			col.hit()
-		elif col.has_method("hit1"):
-			col.hit1()
+
 		
 			
 			
@@ -27,4 +29,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lower_bound_body_entered(body: Node2D) -> void:
-	get_tree().reload_current_scene()
+	game_manager.decrease_life()
+	position.y=panel.position.y-20
+	position.x=panel.position.x
